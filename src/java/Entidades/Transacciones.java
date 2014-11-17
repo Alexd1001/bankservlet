@@ -7,7 +7,6 @@
 package Entidades;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,56 +27,61 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Transacciones.findAll", query = "SELECT t FROM Transacciones t"),
-    @NamedQuery(name = "Transacciones.findByTransid", query = "SELECT t FROM Transacciones t WHERE t.transid = :transid"),
-    @NamedQuery(name = "Transacciones.findByFecha", query = "SELECT t FROM Transacciones t WHERE t.fecha = :fecha")})
+    @NamedQuery(name = "Transacciones.findById", query = "SELECT t FROM Transacciones t WHERE t.id = :id"),
+    @NamedQuery(name = "Transacciones.findBySaldo", query = "SELECT t FROM Transacciones t WHERE t.saldo = :saldo")})
 public class Transacciones implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "transid")
-    private Integer transid;
-    @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
-    @JoinColumn(name = "documento_id", referencedColumnName = "documentoid")
-    @ManyToOne
-    private Clientes documentoId;
+    @Column(name = "id")
+    private Integer id;
+    @Basic(optional = false)
+    @Column(name = "saldo")
+    private int saldo;
+    @JoinColumn(name = "cuenta_id", referencedColumnName = "cuentaid")
+    @ManyToOne(optional = false)
+    private Cuenta cuentaId;
 
     public Transacciones() {
     }
 
-    public Transacciones(Integer transid) {
-        this.transid = transid;
+    public Transacciones(Integer id) {
+        this.id = id;
     }
 
-    public Integer getTransid() {
-        return transid;
+    public Transacciones(Integer id, int saldo) {
+        this.id = id;
+        this.saldo = saldo;
     }
 
-    public void setTransid(Integer transid) {
-        this.transid = transid;
+    public Integer getId() {
+        return id;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public int getSaldo() {
+        return saldo;
     }
 
-    public Clientes getDocumentoId() {
-        return documentoId;
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
     }
 
-    public void setDocumentoId(Clientes documentoId) {
-        this.documentoId = documentoId;
+    public Cuenta getCuentaId() {
+        return cuentaId;
+    }
+
+    public void setCuentaId(Cuenta cuentaId) {
+        this.cuentaId = cuentaId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (transid != null ? transid.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -90,7 +92,7 @@ public class Transacciones implements Serializable {
             return false;
         }
         Transacciones other = (Transacciones) object;
-        if ((this.transid == null && other.transid != null) || (this.transid != null && !this.transid.equals(other.transid))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -98,7 +100,7 @@ public class Transacciones implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.Transacciones[ transid=" + transid + " ]";
+        return "Entidades.Transacciones[ id=" + id + " ]";
     }
     
 }

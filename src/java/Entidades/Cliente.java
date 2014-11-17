@@ -9,6 +9,7 @@ package Entidades;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,19 +25,17 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Mao
  */
 @Entity
-@Table(name = "clientes")
+@Table(name = "cliente")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Clientes.findAll", query = "SELECT c FROM Clientes c"),
-    @NamedQuery(name = "Clientes.findByCuentaid", query = "SELECT c FROM Clientes c WHERE c.cuentaid = :cuentaid"),
-    @NamedQuery(name = "Clientes.findByDocumentoid", query = "SELECT c FROM Clientes c WHERE c.documentoid = :documentoid"),
-    @NamedQuery(name = "Clientes.findByNombre", query = "SELECT c FROM Clientes c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Clientes.findByApellido", query = "SELECT c FROM Clientes c WHERE c.apellido = :apellido")})
-public class Clientes implements Serializable {
+    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c"),
+    @NamedQuery(name = "Cliente.findByDocumentoid", query = "SELECT c FROM Cliente c WHERE c.documentoid = :documentoid"),
+    @NamedQuery(name = "Cliente.findByNombre", query = "SELECT c FROM Cliente c WHERE c.nombre = :nombre"),
+    @NamedQuery(name = "Cliente.findByApellido", query = "SELECT c FROM Cliente c WHERE c.apellido = :apellido"),
+    @NamedQuery(name = "Cliente.findByDireccion", query = "SELECT c FROM Cliente c WHERE c.direccion = :direccion"),
+    @NamedQuery(name = "Cliente.findByTelefono", query = "SELECT c FROM Cliente c WHERE c.telefono = :telefono")})
+public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @Column(name = "cuentaid")
-    private int cuentaid;
     @Id
     @Basic(optional = false)
     @Column(name = "documentoid")
@@ -47,29 +46,28 @@ public class Clientes implements Serializable {
     @Basic(optional = false)
     @Column(name = "apellido")
     private String apellido;
-    @OneToMany(mappedBy = "documentoId")
-    private Collection<Transacciones> transaccionesCollection;
+    @Basic(optional = false)
+    @Column(name = "direccion")
+    private String direccion;
+    @Basic(optional = false)
+    @Column(name = "telefono")
+    private int telefono;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentoId")
+    private Collection<Cuenta> cuentaCollection;
 
-    public Clientes() {
+    public Cliente() {
     }
 
-    public Clientes(Integer documentoid) {
+    public Cliente(Integer documentoid) {
         this.documentoid = documentoid;
     }
 
-    public Clientes(Integer documentoid, int cuentaid, String nombre, String apellido) {
+    public Cliente(Integer documentoid, String nombre, String apellido, String direccion, int telefono) {
         this.documentoid = documentoid;
-        this.cuentaid = cuentaid;
         this.nombre = nombre;
         this.apellido = apellido;
-    }
-
-    public int getCuentaid() {
-        return cuentaid;
-    }
-
-    public void setCuentaid(int cuentaid) {
-        this.cuentaid = cuentaid;
+        this.direccion = direccion;
+        this.telefono = telefono;
     }
 
     public Integer getDocumentoid() {
@@ -96,13 +94,29 @@ public class Clientes implements Serializable {
         this.apellido = apellido;
     }
 
-    @XmlTransient
-    public Collection<Transacciones> getTransaccionesCollection() {
-        return transaccionesCollection;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setTransaccionesCollection(Collection<Transacciones> transaccionesCollection) {
-        this.transaccionesCollection = transaccionesCollection;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
+    @XmlTransient
+    public Collection<Cuenta> getCuentaCollection() {
+        return cuentaCollection;
+    }
+
+    public void setCuentaCollection(Collection<Cuenta> cuentaCollection) {
+        this.cuentaCollection = cuentaCollection;
     }
 
     @Override
@@ -115,10 +129,10 @@ public class Clientes implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Clientes)) {
+        if (!(object instanceof Cliente)) {
             return false;
         }
-        Clientes other = (Clientes) object;
+        Cliente other = (Cliente) object;
         if ((this.documentoid == null && other.documentoid != null) || (this.documentoid != null && !this.documentoid.equals(other.documentoid))) {
             return false;
         }
@@ -127,7 +141,7 @@ public class Clientes implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.Clientes[ documentoid=" + documentoid + " ]";
+        return "Entidades.Cliente[ documentoid=" + documentoid + " ]";
     }
     
 }
