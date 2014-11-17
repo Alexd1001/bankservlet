@@ -10,7 +10,7 @@ package Modelo;
  *
  * @author Mao
  */
-public class CuentaCte extends Cuenta{
+public class CuentaCte extends Cuentas{
 
     private static final double interes= 0.022;
     

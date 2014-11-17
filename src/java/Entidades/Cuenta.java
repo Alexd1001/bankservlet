@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,16 +36,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cuenta.findByCuentaid", query = "SELECT c FROM Cuenta c WHERE c.cuentaid = :cuentaid"),
     @NamedQuery(name = "Cuenta.findByTipocuenta", query = "SELECT c FROM Cuenta c WHERE c.tipocuenta = :tipocuenta")})
 public class Cuenta implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuentaId")
+    private Collection<Transacciones> transaccionesCollection;
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "cuentaid")
     private Integer cuentaid;
     @Basic(optional = false)
     @Column(name = "tipocuenta")
     private int tipocuenta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuentaId")
-    private Collection<Transacciones> transaccionesCollection;
     @JoinColumn(name = "documento_id", referencedColumnName = "documentoid")
     @ManyToOne(optional = false)
     private Cliente documentoId;
@@ -74,15 +77,6 @@ public class Cuenta implements Serializable {
 
     public void setTipocuenta(int tipocuenta) {
         this.tipocuenta = tipocuenta;
-    }
-
-    @XmlTransient
-    public Collection<Transacciones> getTransaccionesCollection() {
-        return transaccionesCollection;
-    }
-
-    public void setTransaccionesCollection(Collection<Transacciones> transaccionesCollection) {
-        this.transaccionesCollection = transaccionesCollection;
     }
 
     public Cliente getDocumentoId() {
@@ -116,6 +110,15 @@ public class Cuenta implements Serializable {
     @Override
     public String toString() {
         return "Entidades.Cuenta[ cuentaid=" + cuentaid + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Transacciones> getTransaccionesCollection() {
+        return transaccionesCollection;
+    }
+
+    public void setTransaccionesCollection(Collection<Transacciones> transaccionesCollection) {
+        this.transaccionesCollection = transaccionesCollection;
     }
     
 }

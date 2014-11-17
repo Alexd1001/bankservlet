@@ -13,15 +13,15 @@ import java.util.Date;
  *
  * @author Mao
  */
-public class Transferencia implements Transacciones {
+public class Transferencia implements Transaccion {
 
     private Date fecha;
-    private Cuenta objeto;
+    private Cuentas objeto;
     private int saldoOrigen;
     private int saldoDestino;
     private int montoTransferencia;
     
-    public Transferencia(Cuenta objeto, int saldoOrigen,int saldoDestino,int montoTransferencia)
+    public Transferencia(Cuentas objeto, int saldoOrigen,int saldoDestino,int montoTransferencia)
     {   
         this.objeto=objeto;
         this.saldoOrigen=saldoOrigen;

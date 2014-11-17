@@ -5,24 +5,24 @@ package Controlador;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-import Modelo.Cliente;
+import Entidades.Cliente;
+import Entidades.Cuenta;
+import Entidades.Transacciones;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
-import java.io.IOException;
-import java.util.List;
-import javax.persistence.Query;
 
 /**
  *
@@ -40,7 +40,7 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    public void save(Cliente object,HttpServletRequest request)
+    /*public void save(Cliente object,HttpServletRequest request)
     {
          Enumeration en = request.getParameterNames();
              
@@ -62,8 +62,28 @@ public class MainController extends HttpServlet {
                 }
             }
              
+    }*/
+     
+    public void create(EntityManager em)
+    {    
+        Cliente p = new Cliente();
+        
+        p.setNombre("pepe");
+        p.setApellido("zuluaga");
+        p.setDireccion("Calle 21 no 8-12");
+        p.setTelefono(312524503);
+        p.setDocumentoid(1010194129);
+        em.getTransaction().begin(); 
+        em.persist(p);
+        em.getTransaction().commit();  
+        
+        
+            
+              
     }
-     public void create(EntityManager em,  Cliente object)
+    
+    
+    /*public void create(EntityManager em,  Cliente object)
     {       Cuentas user = new Cuentas(); 
             user.setDocumentoid(object.getdocumentoId());
             user.setNombre(object.getNombre());
@@ -71,8 +91,8 @@ public class MainController extends HttpServlet {
             em.getTransaction().begin(); 
             em.persist(user);
             em.getTransaction().commit();    
-    }
-     public boolean comparar(EntityManager em,HttpServletResponse response,HttpServletRequest request ) throws IOException
+    }*/
+     /*public boolean comparar(EntityManager em,HttpServletResponse response,HttpServletRequest request ) throws IOException
     {   
         boolean flag=false;
         Query query = em.createQuery("SELECT p FROM Usuarios p ", Cliente.class);
@@ -86,8 +106,8 @@ public class MainController extends HttpServlet {
         }   
         }
         return flag;
-   }
-     public void delete(EntityManager em,int accnumber)
+   }*/
+    /* public void delete(EntityManager em,int accnumber)
     {
          em.getTransaction().begin();
          Cuentas y = em.find(Cuentas.class, accnumber);
@@ -95,14 +115,32 @@ public class MainController extends HttpServlet {
              em.remove(y);
          em.getTransaction().commit();
     }
-    
+    */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankProjectPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankApplicationPU");
         EntityManager em = emf.createEntityManager();
         Cliente p = new Cliente();
-        save(p, request);
-        create(em, p);
+        Cuenta h = new Cuenta();
+        Transacciones q = new Transacciones();
+       // save(p, request);
+        p.setNombre("cepu");
+        p.setApellido("xuluaga");
+        p.setDireccion("Calle 21 no 8-12");
+        p.setTelefono(31252853);
+        p.setDocumentoid(201311123);
+        
+        h.setDocumentoId(p);
+        h.setTipocuenta(2);
+        
+        q.setCuentaId(h);
+        q.setSaldo(950000);
+        
+        em.getTransaction().begin(); 
+        em.persist(p);
+        em.persist(h);
+        em.persist(q);
+        em.getTransaction().commit();  
       response.setContentType("text/html");
       String site = new String("transacciones.html");
 
