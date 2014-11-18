@@ -72,7 +72,7 @@ public class Clientes {
     }
     
     
-    public static void main(String [] poei)
+   /* public static void main(String [] poei)
     {
         
         
@@ -91,5 +91,5 @@ public class Clientes {
       
       System.out.println(p.getCuenta().getSaldo());
         
-    }
+    }*/
 }

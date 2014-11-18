@@ -108,32 +108,22 @@ public class MainController extends HttpServlet {
      
         
     }
-    
-    
-    /*public void create(EntityManager em,  Cliente object)
-    {       Cuentas user = new Cuentas(); 
-            user.setDocumentoid(object.getdocumentoId());
-            user.setNombre(object.getNombre());
-            user.setSaldo(object.getSaldo()); 
-            em.getTransaction().begin(); 
-            em.persist(user);
-            em.getTransaction().commit();    
-    }*/
-     /*public boolean comparar(EntityManager em,HttpServletResponse response,HttpServletRequest request ) throws IOException
+
+     public boolean comparar(EntityManager em,HttpServletResponse response,HttpServletRequest request ) throws IOException
     {   
         boolean flag=false;
-        Query query = em.createQuery("SELECT p FROM Usuarios p ", Cliente.class);
+        Query query = em.createQuery("SELECT p FROM Cliente p ", Cliente.class);
         List<Cliente> lista = query.getResultList();
         
         
         for (Cliente p : lista) {
-        if(request.getParameter("documento").equals(p.getdocumentoId())){
+        if(request.getParameter("documentoid").equals(p.getDocumentoid())){
             flag=true;
         break;    
         }   
         }
         return flag;
-   }*/
+   }
     /* public void delete(EntityManager em,int accnumber)
     {
          em.getTransaction().begin();
@@ -149,16 +139,26 @@ public class MainController extends HttpServlet {
         EntityManager em = emf.createEntityManager();
         Clientes p = new Clientes();
         Cuentas m = new CuentaAhorros();
-        save(p, request);
-        create(em, request,  p);
         
-      
-      response.setContentType("text/html");
+        if(comparar(em, response, request)){ 
+            response.setContentType("text/html");
       String site = new String("transacciones.html");
 
       response.setStatus(response.SC_MOVED_TEMPORARILY);
       response.setHeader("Location", site); 
+       }
+        //save(p, request);
+        //create(em, request,  p);
+        else{
+       request.setAttribute("errorMessage", "Invalid user or password");
+        RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+                    rd.forward(request, response);
+            
+            
+      
+        }
     }
+        
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
