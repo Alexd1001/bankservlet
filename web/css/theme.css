@@ -569,6 +569,11 @@ div#prices p {
 	color: #3D3D3D;
 	font-weight: 300;
 }
+
+#botones{
+
+display: inline-block;
+}
 .span3 {
 	  margin: 1% 2% 0 0;
 	  float: left;
@@ -637,6 +642,8 @@ div.faq-grid p {
 .get-intouch-left-address p.style2{
 	color: #f5f5f5;
 }
+
+
 .get-intouch-left-address p{
 	color: #999999;
 	font-size: 1em;

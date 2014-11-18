@@ -1085,7 +1085,7 @@ button.mfp-arrow {
   display: block;
   padding: 0;
   z-index: 1046;
-back-bground: url(../images/close.png) no-repeat;
+ack_bground: url(../images/close.png) no-repeat;
 }
 button::-moz-focus-inner {
   padding: 0;

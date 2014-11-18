@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>The Kebrum Website Template :: w3layouts</title>
+		<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<!--webfonts-->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+		<!--webfonts-->
+		<link href="css/theme.css" rel='stylesheet' type='text/css' />
+		<script type="text/javascript" src="js/jquery.min.js"></script>		
+        <!--start slider -->
+	    <link rel="stylesheet" href="css/fwslider.css" media="all">
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/css3-mediaqueries.js"></script>
+		<script src="js/fwslider.js"></script>
+	<!--end slider -->
+	       <!--  jquery plguin -->
+		<script src="js/login.js"></script>		
+		<script src="js/modernizr.custom.js"></script>
+		
+
+	    <!--scroll-->
+ 		<script type="text/javascript">
+			$(document).ready(function() {
+			
+				var defaults = {
+		  			containerID: 'toTop', // fading element id
+					containerHoverID: 'toTopHover', // fading element hover id
+					scrollSpeed: 1200,
+					easingType: 'linear' 
+		 		};
+				
+				
+				$().UItoTop({ easingType: 'easeOutQuart' });
+				
+			});
+		</script>
+		<!--//scroll-->
+	<!-- Add fancyBox light-box -->
+	<link rel="stylesheet" type="text/css" href="css/magnific-popup1.css">
+		<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+				<script>
+					$(document).ready(function() {
+						$('.popup-with-zoom-anim').magnificPopup({
+							type: 'inline',
+							fixedContentPos: false,
+							fixedBgPos: true,
+							overflowY: 'auto',
+							closeBtnInside: true,
+							preloader: false,
+							midClick: true,
+							removalDelay: 300,
+							mainClass: 'my-mfp-zoom-in'
+					});
+				});
+		</script>
+		<!-- //End fancyBox light-box -->	
+	</head>
+<body>
+       <!--start-images-slider-->
+		<div class="images-slider">
+			<!-- start slider -->
+		    <div id="fwslider">
+		        <div class="slider_container">
+		            <div class="slide"> 
+		                <!-- Slide image -->
+		                    <img src="images/banner2.jpg" alt=""/>
+		                <!-- /Slide image -->
+		                <!-- Texts container -->
+		                <div class="slide_content">
+		                    <div class="slide_content_wrap">
+		                        <!-- Text title -->
+		                        <h4 class="title">Banco Central</h4>	                      
+		                       <h4 class="title">Proyecto Final</h4>
+		                        <!-- /Text description -->
+		                        <div class="slide-btns description">	                      
+		                        </div>
+								
+		                        <div class="buttons">
+									<button class="btn btn-2 btn-2b"> <a class="popup-with-zoom-anim" href="#small-dialog2"><i>INGRESAR</i></a></button>
+									<button class="btn1 btn-2 btn-2b"> <a class="popup-with-zoom-anim" href="#small-dialog"><i>REGISTRARSE</i></a></button>
+		                        	<div class="clearfix"></div>
+									
+									
+		                        </div>
+		                    </div>
+		                </div>
+		                 <!-- /Texts container -->
+		            </div>
+		            <!-- /Duplicate to create more slides -->
+		            <div class="slide">
+		                <img src="images/banner.jpg" alt=""/>
+		               <div class="slide_content">
+		                    <div class="slide_content_wrap">
+		                        <!-- Text title -->
+		                        <h4 class="title">Banco Central</h4>	                      
+		                       <h4 class="title">Proyecto Final</h4>
+		                        <!-- /Text description -->
+		                        <div class="slide-btns description">	                      
+		                        </div>
+		                         
+		                        <div class="buttons">
+		                        	<button class="btn btn-2 btn-2b"> <a class="popup-with-zoom-anim" href="#small-dialog2"><i>INGRESAR</i></a></button>
+									<button class="btn1 btn-2 btn-2b"> <a class="popup-with-zoom-anim" href="#small-dialog"><i>REGISTRARSE</i></a></button>
+		                        	<div class="clearfix"></div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		            <!--/slide -->
+		        </div>
+		        <div class="timers"> </div>
+		        <div class="slidePrev"><span> </span></div>
+		        <div class="slideNext"><span> </span></div>
+		    </div>
+		    <!--/slider -->
+		</div>	
+	
+	
+    <!--pop-up-grid-->
+	<div id="small-dialog" class="mfp-hide">
+        <form action="MainController" method="get">
+			<div class="pop_up">
+                    <div class="payment-online-form-left">
+                        
+				<h4><span class="shipping"> </span>Datos Personales</h4>
+                                    <ul class="list-unstyled">
+					<li><input id=nombre type=text name=nombre placeholder="Ingrese Nombre" required></li>
+					<li><input id=apellido type=text name=apellido placeholder="Ingrese Apellido" required></li>
+													
+                                    </ul>
+                                    <ul class="list-unstyled">
+                                        <li><input id=numdoc type=text name=numdoc placeholder="Numero Documento" required></li>
+					<li><input id=saldoingreso type=text name=saldoingreso placeholder="Saldo Ingreso" required></li>													
+					<li><input type="radio" name="tipocuenta" value="corriente" checked>Cuenta Corriente </li>
+					<li><input type="radio" name="tipocuenta" value="ahorros" >Cuenta Ahorros</li>
+                                    </ul>
+                                    <br>
+                                    <div class="clearfix"></div>
+                                    <input type="button" onclick=" location.href='index.html' " value="CANCELAR" name="boton"/>  
+                                    <div class="clearfix"></div>
+                                    <fieldset>
+                                        <button type=submit>REGISTRARSE</button>
+                                    </fieldset>
+                        
+                    </div>
+			</div>
+        </form>    
+        </div>
+    
+								
+<div id="small-dialog2" class="mfp-hide">
+        <form action="ServletIngreso" method="get">
+            <div class="pop_up">
+		<div class="payment-online-form-left">
+			<h4><span class="shipping"> </span>INGRESO</h4>
+			<ul class="list-unstyled">
+                            <li><input id=usuario type=text name=usuario placeholder="Usuario" required></li>	
+			</ul>
+			<div class="clearfix"  ></div>	
+                            <input type="button" onclick=" location.href='index.html' " value="CANCELAR" name="boton"/> 
+			<div class="clearfix" id="botonos"></div>
+                        <fieldset  style="display: inline">
+                                        <button type=submit>INGRESAR</button>
+                        </fieldset>
+		</div>
+            </div>
+        </form>
+</div>								
+								<!---pop-up-grid-->
+								
+								
+
+<div class="footer">
+	<div class="container">
+		<div class="row">
+ 			<div class="col-md-12">	
+				<div class="copy-right">
+					<p>Copyright 2014 All Rights Reserved  Template <a href="http://w3layouts.com/">  w3layouts.com</a></p>	
+				</div>	
+			</div>
+		</div>
+    </div>
+</div>
+<!-- scroll_top_btn -->
+		<script type="text/javascript" src="js/move-top.js"></script>
+		<script type="text/javascript" src="js/easing.js"></script>
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event){		
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+			});
+		});
+		</script>
+
+		 <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"></span></a>
+</body>
+</html>
+

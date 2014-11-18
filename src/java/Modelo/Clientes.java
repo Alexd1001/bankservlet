@@ -11,15 +11,24 @@ package Modelo;
  * @author adavila
  */
 public class Clientes {
+    
     private int documentoId;
     private String nombre;
     private String apellido;
     private int telefono;
-	private String direccion;
-	private Cuentas cuenta;
+    private String direccion;
+    private Cuentas cuenta;
+
+    public void setCuenta(Cuentas cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    public Cuentas getCuenta() {
+        return cuenta;
+    }
 	
-	
-	 public int getTelefono() {
+    public int getTelefono() {
+        
         return telefono;
     }
 
@@ -30,7 +39,10 @@ public class Clientes {
 	public String getDireccion() {
         return direccion;
     }
-
+    
+    
+        
+        
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
@@ -60,5 +72,24 @@ public class Clientes {
     }
     
     
-    
+    public static void main(String [] poei)
+    {
+        
+        
+      Clientes p = new Clientes();    
+      
+      //p.setCuenta(new Cuenta);
+      //p.cuenta.setSaldo(25000);
+      
+      
+      
+      //p.getCuenta() y = new CuentaCte();
+      
+     p.setCuenta(new CuentaAhorros());
+     p.getCuenta().setSaldo(87123);
+      
+      
+      System.out.println(p.getCuenta().getSaldo());
+        
+    }
 }

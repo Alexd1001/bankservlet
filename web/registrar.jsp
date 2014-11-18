@@ -13,10 +13,18 @@
     </head>
     <body>
         <h1>Registro</h1>
-        <form action="MainController" method="get"> 
+        <form action="MainController" method="get" > 
         Nombre:<input name="nombre">
-        cedula:<input name="cedula">
-        saldo:<input name="saldo">
+	Apellido:<input name="apellido">
+        Cedula:<input name="documentoid">
+        Saldo:<input name="saldo">
+	Telefono:<input name="telefono">
+	Direccion:<input name="direccion">
+	Tipo Cuenta
+	<input type="radio" name="tipocuenta" value="1" checked>Cuenta Ahorros
+	<input type="radio" name="tipocuenta" value="2" checked>Cuenta Corriente
+	
+	<input type="hidden" name="htmlFormName" value="registrar"/>
         <input type="submit" value="registrar"> 
         </form>
     </body>

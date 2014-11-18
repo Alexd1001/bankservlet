@@ -8,8 +8,13 @@ package Controlador;
 import Entidades.Cliente;
 import Entidades.Cuenta;
 import Entidades.Transacciones;
+import Modelo.Clientes;
+import Modelo.CuentaAhorros;
+import Modelo.CuentaCte;
+import Modelo.Cuentas;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -40,46 +45,68 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    /*public void save(Cliente object,HttpServletRequest request)
+    public void save(Clientes object,HttpServletRequest request)
     {
          Enumeration en = request.getParameterNames();
              
+         
              while (en.hasMoreElements()) 
              {
                  String paramName = (String) en.nextElement();
                 
-                
-                switch (paramName) {
+              
+                  switch (paramName) {
                  case "nombre":
                       object.setNombre(request.getParameter(paramName));
                      break;
-                 case "cedula":
-                     object.setCedulaid(Integer.parseInt(request.getParameter(paramName)));
+                 case "apellido":
+                      object.setApellido(request.getParameter(paramName));
+                     break;
+                 case "documentoid":
+                     object.setDocumentoId(Integer.parseInt(request.getParameter(paramName)));
                      break;
                  case "saldo":
-                     object.setSaldo(Integer.parseInt(request.getParameter(paramName)));
+                     object.setCuenta(new CuentaAhorros());
+                     //object.getCuenta().setSaldo(Integer.parseInt(request.getParameter(paramName)));
+                     object.getCuenta().setSaldo(87123);
                      break;
+                 case "telefono":
+                     object.setTelefono(Integer.parseInt(request.getParameter(paramName)));
+                     break;
+                 case "direccion":
+                     object.setDireccion(request.getParameter(paramName));
+                     break;      
                 }
             }
              
-    }*/
+    }
      
-    public void create(EntityManager em)
-    {    
-        Cliente p = new Cliente();
+    public void create(EntityManager em, HttpServletRequest request, Clientes p)
+    {   Transacciones q = new Transacciones();
+        Cuenta h = new Cuenta();
         
-        p.setNombre("pepe");
-        p.setApellido("zuluaga");
-        p.setDireccion("Calle 21 no 8-12");
-        p.setTelefono(312524503);
-        p.setDocumentoid(1010194129);
+        
+        Cliente t = new Cliente();          
+        t.setNombre(p.getNombre());
+        t.setApellido(p.getApellido());
+        t.setDireccion(p.getDireccion());
+        t.setTelefono(p.getTelefono());
+        t.setDocumentoid(p.getDocumentoId());
+        
+        h.setDocumentoId(t);
+        h.setTipocuenta(Integer.parseInt(request.getParameter("tipocuenta")));
+        
+        q.setCuentaId(h);
+        p.setCuenta(new CuentaCte());
+        q.setSaldo(p.getCuenta().getSaldo());
+        
         em.getTransaction().begin(); 
-        em.persist(p);
-        em.getTransaction().commit();  
+        em.persist(t);
+        em.persist(h);
+        em.persist(q);
+        em.getTransaction().commit();        
+     
         
-        
-            
-              
     }
     
     
@@ -120,32 +147,17 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankApplicationPU");
         EntityManager em = emf.createEntityManager();
-        Cliente p = new Cliente();
-        Cuenta h = new Cuenta();
-        Transacciones q = new Transacciones();
-       // save(p, request);
-        p.setNombre("cepu");
-        p.setApellido("xuluaga");
-        p.setDireccion("Calle 21 no 8-12");
-        p.setTelefono(31252853);
-        p.setDocumentoid(201311123);
+        Clientes p = new Clientes();
+        Cuentas m = new CuentaAhorros();
+        save(p, request);
+        create(em, request,  p);
         
-        h.setDocumentoId(p);
-        h.setTipocuenta(2);
-        
-        q.setCuentaId(h);
-        q.setSaldo(950000);
-        
-        em.getTransaction().begin(); 
-        em.persist(p);
-        em.persist(h);
-        em.persist(q);
-        em.getTransaction().commit();  
+      
       response.setContentType("text/html");
       String site = new String("transacciones.html");
 
       response.setStatus(response.SC_MOVED_TEMPORARILY);
-      response.setHeader("Location", site);    
+      response.setHeader("Location", site); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
