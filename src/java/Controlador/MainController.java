@@ -140,15 +140,14 @@ public class MainController extends HttpServlet {
         Clientes p = new Clientes();
         Cuentas m = new CuentaAhorros();
         
-        if(comparar(em, response, request)){ 
+        /*if(comparar(em, response, request)){ 
             response.setContentType("text/html");
       String site = new String("transacciones.html");
 
       response.setStatus(response.SC_MOVED_TEMPORARILY);
       response.setHeader("Location", site); 
        }
-        //save(p, request);
-        //create(em, request,  p);
+        
         else{
        request.setAttribute("errorMessage", "Invalid user or password");
         RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
@@ -156,7 +155,15 @@ public class MainController extends HttpServlet {
             
             
       
-        }
+        }*/
+        save(p, request);
+        create(em, request,  p);
+        response.setContentType("text/html");
+      String site = new String("transacciones.html");
+
+      response.setStatus(response.SC_MOVED_TEMPORARILY);
+      response.setHeader("Location", site); 
+        
     }
         
 
