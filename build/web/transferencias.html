@@ -77,18 +77,19 @@
  	<div class="col-md-6">
  		<div class="contact-right">		
  		    <div class="form">				
-				  			<form method="post" action="#">
-							    	<input type="text" class="textbox" value="Numero Cuenta Destino" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Numero Cuenta Destino';}">
-							    	<input type="text" class="textbox" value="Valor a Transferir" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Valor a Transferir';}">
+				  			<form method="get" action="Transaction">
+							    	<input type="text" class="textbox" name="nocuenta" value="Numero Cuenta Destino" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Numero Cuenta Destino';}">
+							    	<input type="text" class="textbox" name="valor" value="Valor a Transferir" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Valor a Transferir';}">
 										<div class="clearfix"></div>	
-								    <div>
+                                                                                <input type="submit" value="Transferir">       
+								    <!--<div>
 								    	<textarea value="Message:" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = ' Mensaje';}">Mensaje</textarea>
 								    </div>
 								<div class="span4">
 							    	<input type="button" onclick=" location.href='resumentransaccion.html' " value="TRANSFERIR" name="boton" /> 
 									<input type="button" onclick=" location.href='transacciones.html' " value="MENU INICIAL" name="boton" /> 
 									<input type="button" onclick=" location.href='index.html' " value="SALIR" name="boton" /> 
-							    </div>								
+							    </div>-->								
 							</form>
 						</div>
  		    	 </div>	

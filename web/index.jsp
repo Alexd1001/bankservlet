@@ -143,7 +143,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								 <div id="small-dialog" class="mfp-hide">
 									<div class="pop_up">
 									 	<div class="payment-online-form-left">
-											<form action="MainController" method="get">
+											<form action="Registro" method="get">
 												<h4><span class="shipping"> </span>Datos Personales</h4>
 												<ul class="list-unstyled">
 													<li><input class="text-box-dark" type="text" name="nombre" value="Nombre" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Primer Nombre';}"></li>
@@ -177,10 +177,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								 <div id="small-dialog2" class="mfp-hide">
 									<div class="pop_up">
 									 	<div class="payment-online-form-left">
-											<form action="MainController" method="get">
+											<form action="Login" method="get">
 												<h4><span class="shipping"> </span>INGRESO</h4>
 												<ul class="list-unstyled">
-													<li><input class="text-box-dark" type="text" name="" value="No Documentoo" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Usuario';}"></li>
+													<li><input class="text-box-dark" type="text" name="documentoid" value="No Documentoo" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Usuario';}"></li>
 												</ul>
 												<div class="clearfix"></div>		
 												<ul class="payment-sendbtns">
