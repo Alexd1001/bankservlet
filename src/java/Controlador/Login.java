@@ -56,24 +56,6 @@ public class Login extends HttpServlet {
         
         }
         
-        
-        
-        
-        
-        
-        
-        /*boolean flag=false;
-        Query query = em.createQuery("SELECT p FROM Cliente p", Cliente.class);
-        List<Cliente> lista = query.getResultList();
-        
-        
-        for (Cliente p : lista) {
-        if(request.getParameter("documentoid").equals(p.getDocumentoid())){
-            flag=true;
-        break;    
-        }   
-        }
-        return flag;*/
         return flag;
    }
     

@@ -117,7 +117,7 @@ public class Registro extends HttpServlet {
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankApplicationPU");
         EntityManager em = emf.createEntityManager();
         Clientes p = new Clientes();
@@ -131,7 +131,7 @@ public class Registro extends HttpServlet {
         
         String userName= null;
         Cookie[] cookies = request.getCookies();
-    if(cookies !=null){
+        if(cookies !=null){
         for(Cookie cookie : cookies){
         if(cookie.getName().equals("name")) {
             userName = cookie.getValue();

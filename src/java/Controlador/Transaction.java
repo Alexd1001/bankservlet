@@ -12,18 +12,21 @@ import Entidades.Transacciones;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -43,7 +46,8 @@ public class Transaction extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-   public ArrayList<String> comparar(EntityManager em,HttpServletRequest request ) throws IOException
+    
+    public ArrayList<String> comparar(EntityManager em,HttpServletRequest request ) throws IOException
     {   
         
         ArrayList<String> lista = new ArrayList<String>();
@@ -52,7 +56,9 @@ public class Transaction extends HttpServlet {
         
         //Cuenta up = em.find(Cuenta.class, Integer.parseInt(request.getParameter("nocuenta")));
         
-        Query query = em.createQuery("SELECT x FROM Transacciones x ");
+        Query query = em.createQuery("SELECT x FROM Transacciones x where cuentaid=:cuenta");
+        query.setParameter("cuenta", request.getParameter("nocuenta"));
+        
         List<Transacciones> lista1 = query.getResultList();
         
         lista.add(0,"false");
@@ -83,6 +89,40 @@ public class Transaction extends HttpServlet {
    }
     
     
+    
+   public ArrayList<String> comparar1(EntityManager em,HttpServletRequest request ) throws IOException
+    {   
+        
+        ArrayList<String> lista = new ArrayList<String>();
+        boolean flag=false;
+             
+        
+               
+        Query query =  em.createNativeQuery("select cuentaid, documentoid,nombre,apellido,saldo from cliente inner join cuenta on cuenta.documento_id = cliente.documentoid  inner join transacciones on transacciones.CUENTA_ID=cuenta.CUENTAID where documentoid=?");
+        
+        query.setParameter(1, 92);
+        List<Object[]> lista1 = query.getResultList();
+        
+        
+        if(!lista1.isEmpty())
+        {
+        
+        lista.add("false");
+        lista.add(Integer.toString( (int) lista1.get(0)[0]));
+        lista.add( (String) lista1.get(0)[2]);
+        lista.add(Integer.toString( (int) lista1.get(0)[4]));
+        }
+        else
+        {
+            lista.add(0,"false");
+            lista.add(1,"mal");
+        }
+        
+       
+        return lista;
+   }
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -99,7 +139,7 @@ public class Transaction extends HttpServlet {
         
         }
         
-        ArrayList <String> lista= comparar(em,request);
+        ArrayList <String> lista= comparar1(em,request);
         
         if(Boolean.parseBoolean(lista.get(0)))
         {
@@ -117,24 +157,19 @@ public class Transaction extends HttpServlet {
             out.println("</html>");
             }
         }
-        else{
         
         try (PrintWriter out = response.getWriter()) {
            
-            
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet tTransaction</title>");            
             out.println("</head>");
             out.println("<body>");
-           for(String u:lista) {
-            out.println("<h1>Servlet tTransaction at " + request.getContextPath() +u+ "</h1>");
-        }
+            for(String u: lista){
+            out.println("<h1>Servlet tTransaction at " + u + "</h1>");}
             out.println("</body>");
             out.println("</html>");
-            
-        }
         }
     }
 
