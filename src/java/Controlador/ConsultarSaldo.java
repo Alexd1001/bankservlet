@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Mao
- */
+
 public class ConsultarSaldo extends HttpServlet {
 
     /**
@@ -47,15 +44,8 @@ public class ConsultarSaldo extends HttpServlet {
         
         HttpSession session=request.getSession();
         int documento = (Integer)session.getAttribute("documento");  
-        ArrayList <String> listaorigen = ob.consulta(em, documento, "documentoid");
-        listaorigen.add(Integer.toString(documento));
-        
-        
-       
-        
+        ArrayList <String> listaorigen = ob.consulta(em, documento, "documentoid");    
         request.setAttribute("info", listaorigen);
-        
-        
         RequestDispatcher rd = request.getRequestDispatcher("consulta.jsp");
         rd.forward(request, response);
     }

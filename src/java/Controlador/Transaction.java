@@ -3,24 +3,29 @@ package Controlador;
 import Entidades.Cliente;
 import Entidades.Cuenta;
 import Entidades.Transacciones;
+import Modelo.CuentaAhorros;
+import Modelo.CuentaCte;
+import Modelo.Cuentas;
+import Modelo.Transaccion;
+import Modelo.Transferencia;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.TypedQuery;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -51,7 +56,7 @@ public class Transaction extends HttpServlet {
         ArrayList<String> lista = new ArrayList<String>();
        
              
-        Query query =  em.createNativeQuery("select cuentaid,saldo,documentoid,tipocuenta,nombre,apellido from cliente inner join cuenta on cuenta.documento_id = cliente.documentoid  inner join transacciones on transacciones.CUENTA_ID=cuenta.CUENTAID where "+columna+"=?");
+        Query query =  em.createNativeQuery("select cuentaid,saldo,documentoid,tipocuenta,nombre,apellido,id from cliente inner join cuenta on cuenta.documento_id = cliente.documentoid  inner join transacciones on transacciones.CUENTA_ID=cuenta.CUENTAID where "+columna+"=?");
         
         query.setParameter(1, id);
         List<Object[]> lista1 = query.getResultList();
@@ -65,15 +70,31 @@ public class Transaction extends HttpServlet {
         lista.add(Integer.toString( (int) lista1.get(0)[3]));
         lista.add( (String) lista1.get(0)[4]);
         lista.add( (String) lista1.get(0)[5]);
+        lista.add(Integer.toString( (int) lista1.get(0)[2]));
+        lista.add(Integer.toString( (int) lista1.get(0)[6]));
+        
         }
         else
         {
             lista.add(0,"false");
             lista.add(1,"La Cuenta Destino No Existe, La transaccion no se ejecuto");
         }
-        
         return lista;
    }
+   
+   
+    public void actualizarRegristros(EntityManager em,int llave,int saldo) {     
+              
+       
+        
+         em.getTransaction().begin();
+         Transacciones trans = em.find(Transacciones.class, llave);
+         if (trans != null) 
+            trans.setSaldo(saldo);   
+    
+        em.merge(trans);
+        em.getTransaction().commit();    
+    }
     
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -81,8 +102,12 @@ public class Transaction extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankApplicationPU");
         EntityManager em = emf.createEntityManager();
+        int intereses,docorigen;
+        int documento = 0;
+        int saldoorigen;
+        int saldodestino;
+        String valor = request.getParameter("valor");
         
-       int documento = 0;
         
         int cuentaDno= Integer.parseInt(request.getParameter("nocuenta"));
         
@@ -94,31 +119,41 @@ public class Transaction extends HttpServlet {
         ArrayList <String> listadestino = consulta(em,cuentaDno,"cuentaid");
         
         
+       
         
-        
-        
-        if(Boolean.parseBoolean(listaorigen.get(0)))
-        { 
+        if(Boolean.parseBoolean(listadestino.get(0)))
+        {
+                    
+            Cuentas transaccliente;//Objeto tipo cuentas
+   
+            if(listaorigen.get(3).equals("1"))//1 ahorros
+                 transaccliente=new CuentaAhorros();// Instancia cuenta ahorros y lo asigna a  transaccliente
+               
+            else
+                 transaccliente=new CuentaCte();
             
-          
-          
+            transaccliente.setSaldo(Integer.parseInt(listaorigen.get(2)));
+            Transaccion objtransaccion=new Transferencia(transaccliente,transaccliente.getSaldo(),Integer.parseInt(listadestino.get(2)),Integer.parseInt(valor));
             
-            try (PrintWriter out = response.getWriter()) {
+            ArrayList<Object>  listasaldos=objtransaccion.tipodetransaccion();
+            
+            saldoorigen= (int) listasaldos.get(0);
+                actualizarRegristros(em,Integer.parseInt(listaorigen.get(7)),saldoorigen);
+            
+            saldodestino= (int) listasaldos.get(1);
+            actualizarRegristros(em,Integer.parseInt(listadestino.get(7)),saldodestino);
+            
+            
+            
+            request.setAttribute("datosorigen", listaorigen);
+            request.setAttribute("datosdestino", listadestino);
+            request.setAttribute("valortransaccion", valor);
+            RequestDispatcher rd = request.getRequestDispatcher("resumentransaccion.jsp");
+            rd.forward(request, response);
            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet tTransaction</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            for(String u: listaorigen){
-            out.println("<h1>Servlet Transaction at " + u + "</h1>");}
-            for(String u: listadestino){
-            out.println("<h1>Servlet Transaction at " + u + "</h1>");}
             
-            out.println("</body>");
-            out.println("</html>");
-            }
+            
+            
         }
         
         

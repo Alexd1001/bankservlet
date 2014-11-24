@@ -65,12 +65,12 @@
               ArrayList<String> lista = (ArrayList<String>)request.getAttribute("info");
                String personales=lista.get(4)+" "+lista.get(5)+" "+lista.get(6);
                String tipocuenta="Cuenta Corriente";
-               if(lista.get(3).equals("1"))
+               if(lista.get(4).equals("1"))
                    tipocuenta="Cuenta de ahorros";
                String cuenta="Cuenta no:"+lista.get(1)+", Saldo$"+lista.get(2)+","+tipocuenta;%>
 		<!-- //End fancyBox light-box -->	
 	</head>
-	<body>
+<body>
               
 <!--features-->
 <div class="container">

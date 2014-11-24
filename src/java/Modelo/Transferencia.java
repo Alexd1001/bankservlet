@@ -42,7 +42,7 @@ public class Transferencia implements Transaccion {
     public ArrayList<Object> tipodetransaccion() {
         
       ArrayList<Object> lista = new ArrayList<>();    
-      lista.add(0,saldoOrigen-objeto.intereses());
+      lista.add(0,saldoOrigen-objeto.intereses()-montoTransferencia);
       lista.add(1,saldoDestino+montoTransferencia);
       lista.add(getFecha());
       return lista;

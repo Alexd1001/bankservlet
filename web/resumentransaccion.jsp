@@ -1,7 +1,8 @@
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Banco Central Transferencias</title>
+		<title>Banco Central - Resumen Transaccion</title>
 		<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
 		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 		<script type="text/javascript" src="js/bootstrap.js"></script>
@@ -21,7 +22,7 @@
 		<script src="js/fwslider.js"></script>
 	<!--end slider -->
 	       <!--  jquery plguin -->
-		<script src="js/login.js"></script>		
+		<script src="js/login.js"></script>			
 		<script src="js/modernizr.custom.js"></script>
 		
 
@@ -60,57 +61,54 @@
 					});
 				});
 		</script>
+                <%
+              ArrayList<String> listaorigen = (ArrayList<String>)request.getAttribute("datosorigen");
+              ArrayList<String> listadestino = (ArrayList<String>)request.getAttribute("datosdestino");
+              
+              String valor= (String)request.getAttribute("valortransaccion"); 
+               
+               String datosorigen="Numero de Cuenta: " + listaorigen.get(1)+" con Saldo Actual "+listaorigen.get(2);
+               String mensaje="Se realizo la transaccion a la Cuenta Nro:  "+ listadestino.get(1)+", por valor de: "+valor;%>
 		<!-- //End fancyBox light-box -->	
 	</head>
 	<body>
-		
-<div class="contact s6" id="support">
+<!-- features-->
 <div class="container">
-<div class="row">
- 	<div class="col-md-6">			
- 		<div class="contact-left">		
- 		     <h3>Recuerde</h3>
- 		     <p class="style">Debe ingresar el Numero de la Cuenta a la cual va a realizar la Transferencia, Indicar el valor a Transferir.</p>
-			
- 		</div>	
- 	</div>
- 	<div class="col-md-6">
- 		<div class="contact-right">		
- 		    <div class="form">				
-				  			<form method="get" action="Transaction">
-							    	<input type="text" class="textbox" name="nocuenta" value="Numero Cuenta Destino" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Numero Cuenta Destino';}">
-							    	<input type="text" class="textbox" name="valor" value="Valor a Transferir" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Valor a Transferir';}">
-										<div class="clearfix"></div>	
-                                                                                <input type="submit" value="Transferir">       
-								    <!--<div>
-								    	<textarea value="Message:" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = ' Mensaje';}">Mensaje</textarea>
-								    </div>
-								<div class="span4">
-							    	<input type="button" onclick=" location.href='resumentransaccion.html' " value="TRANSFERIR" name="boton" /> 
+		<div class="content-feature-grids" id="features">
+						<h3> TRANSACCION EXITOSA</h3>
+						<p>Banco Central</p>
+				<div class="col-md-6">
+					<div class="feature-grid">
+						<div class="feature-grid-left icon2">
+							<span> </span>
+						</div>
+						<div class="feature-grid-right">
+							<h2>Resumen Transaccion</h2>
+							<p> <% out.println(mensaje.toUpperCase());%> </p>
+						</div>
+						<div class="clearfix"></div>		
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="feature-grid">
+						<div class="feature-grid-left icon6">
+							<span> </span>
+						</div>
+						<div class="feature-grid-right">
+							<h2>Datos Cuenta Personal</h2>
+							<p> <% out.println(datosorigen.toUpperCase());%> </p>
+						</div>
+						<div class="clearfix"></div>		
+					</div>
+				</div>
+					<div class="clearfix"></div>		
+				</div>
 									<input type="button" onclick=" location.href='transacciones.html' " value="MENU INICIAL" name="boton" /> 
 									<input type="button" onclick=" location.href='index.html' " value="SALIR" name="boton" /> 
-							    </div>-->								
-							</form>
-						</div>
- 		    	 </div>	
- 	    	</div>	
- 			<div class="clearfix"></div>	
- 		</div>	
-	</div>
 </div>
+<!--start-pricing-->
 
-<div class="footer">
-	<div class="container">
-		<div class="row">
- 			<div class="col-md-12">	
-				<div class="copy-right">
-					<p>Copyright 2014 All Rights Reserved  Template <a href="http://w3layouts.com/">  w3layouts.com</a></p>	
-				</div>	
-			</div>
-		</div>
-    </div>
-</div>
-<!-- scroll_top_btn -->
+
 		<script type="text/javascript" src="js/move-top.js"></script>
 		<script type="text/javascript" src="js/easing.js"></script>
 		<script type="text/javascript">
@@ -125,3 +123,10 @@
 		 <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"></span></a>
 </body>
 </html>
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->

@@ -16,7 +16,7 @@ public class CuentaAhorros extends Cuentas{
     
   
     public int intereses() {
-        return (int) (getSaldo()-getSaldo()*interes);
+        return (int) (getSaldo()*interes);
     }
  
 }

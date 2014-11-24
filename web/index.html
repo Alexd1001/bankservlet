@@ -1,18 +1,17 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>The Kebrum Website Template :: w3layouts</title>
+		<title>Pagina Inicial</title>
 		<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
 		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 		<script type="text/javascript" src="js/bootstrap.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-		</script>
-		<!----webfonts---->
+		<!--webfonts-->
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-		<!----//webfonts---->
+		<!--//webfonts-->
 		<link href="css/theme.css" rel='stylesheet' type='text/css' />
 		<script type="text/javascript" src="js/jquery.min.js"></script>		
         <!--start slider -->
@@ -64,16 +63,7 @@
 		<!-- //End fancyBox light-box -->	
 	</head>
 	<body>
-		<!----start-container----->
-		<div class="header-bg" id="home">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-4">
-						<h1>BANCOCENTRAL</h1>
-					</div>
-			</div>
-        </div>	
-       <!----start-images-slider---->
+       <!--start-images-slider-->
 		<div class="images-slider">
 			<!-- start slider -->
 		    <div id="fwslider">
@@ -182,10 +172,7 @@
 													
 												</ul>
 												<ul class="payment-sendbtns">
-													<h2 style="color:red" ><% if(null!=request.getAttribute("errorMessage")){
-        out.println(request.getAttribute("errorMessage"));
-		}
-		%></h2>
+                                                                                                    <h2 style="color:red" <% if(null!=request.getAttribute("errorMessage")){out.println(request.getAttribute("errorMessage"));}%></h2>
 												</ul>
 												<div class="clearfix"></div>
 											</form>

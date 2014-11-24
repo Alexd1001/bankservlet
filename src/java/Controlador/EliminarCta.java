@@ -45,10 +45,7 @@ public class EliminarCta extends HttpServlet {
     
     
           
-     public void eliminaRegristros(EntityManager em,int documentoid) {
-           
-       
-       
+     public void eliminaRegristros(EntityManager em,int documentoid) {     
        Query query =  em.createNativeQuery("select cuentaid,id from cliente inner join cuenta on cuenta.documento_id = cliente.documentoid  inner join transacciones on transacciones.CUENTA_ID=cuenta.CUENTAID where documentoid=?");
        query.setParameter(1, documentoid);
        
