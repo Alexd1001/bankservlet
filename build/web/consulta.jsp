@@ -1,7 +1,8 @@
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>The Kebrum Website Template :: w3layouts</title>
+		<title>Banco Central - Consulta Saldo</title>
 		<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
 		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 		<script type="text/javascript" src="js/bootstrap.js"></script>
@@ -11,7 +12,7 @@
 		<!--webfonts-->
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-		<!--//webfonts-->
+		<!--webfonts-->
 		<link href="css/theme.css" rel='stylesheet' type='text/css' />
 		<script type="text/javascript" src="js/jquery.min.js"></script>		
         <!--start slider -->
@@ -60,87 +61,54 @@
 					});
 				});
 		</script>
+                <%
+              ArrayList<String> lista = (ArrayList<String>)request.getAttribute("info");
+               String personales=lista.get(4)+" "+lista.get(5)+" "+lista.get(6);
+               String tipocuenta="Cuenta Corriente";
+               if(lista.get(3).equals("1"))
+                   tipocuenta="Cuenta de ahorros";
+               String cuenta="Cuenta no:"+lista.get(1)+", Saldo$"+lista.get(2)+","+tipocuenta;%>
 		<!-- //End fancyBox light-box -->	
 	</head>
 	<body>
-		<!--start-container-->
-		<div class="header-bg" id="home">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-4">
-						<div class="logo"><h1><a href="index.html">HOME</a></h1></div>
-					</div>
-					
-			</div>
-        </div>	
-       <!--start-images-slider-->
-		<div class="images-slider">
-			<!-- start slider -->
-		    <div id="fwslider">
-		        <div class="slider_container">
-		            <div class="slide"> 
-		                <!-- Slide image -->
-		                    <img src="images/bannerold.jpg" alt=""/>
-		                <!-- /Slide image -->
-		                <!-- Texts container -->
-		                <div class="slide_content">
-		                    <div class="slide_content_wrap">
-		                        <!-- Text title -->
-		                        <h4 class="title">Pagina Transacciones</h4>	
-		                        <!-- /Text description -->
-		                        <div class="slide-btns description">	                      
-		                        </div>
-		                    </div>
-		                </div>
-		                 <!-- /Texts container -->
-						 
-		            </div>
-					
-		        </div>
-		        <div class="timers"> </div>
-		        <div class="slidePrev"><span> </span></div>
-		        <div class="slideNext"><span> </span></div>
-		    </div>
-		    <!--/slider -->
-		</div>	
-	
-
-<!--start-pricing-->
-<div class="pricing-plans" id="prices">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-						<h3>Seleccione la Transaccion</h3>
-					<div class="pricing-grids">
-						<div class="pricing-grid">
-							<ul class="list-unstyled">
-								<li><a href="ConsultarSaldo">Consulta Saldo</a></li>
-								<li><a href="transferencias.html">Transferencias</a></li>
-								<li><a href="EliminarCta">Eliminar Cuenta</a></li>
-								<li><a href="CerrarSesion">Salir</a></li>
-							</ul>
+              
+<!--features-->
+<div class="container">
+		<div class="content-feature-grids" id="features">
+						<h3> CONSULTA SALDO</h3>
+						<p>Banco Central</p>
+				<div class="col-md-6">
+					<div class="feature-grid">
+						<div class="feature-grid-left icon2">
+							<span> </span>
 						</div>
-					</div>
+						<div class="feature-grid-right">
+							<h2>Datos Personales</h2>
+                                                        <p> <% out.println(personales.toUpperCase());%> </p>
+						</div>
 						<div class="clearfix"></div>		
 					</div>
 				</div>
-			</div>
-		</div>
+				<div class="col-md-6">
+					<div class="feature-grid">
+						<div class="feature-grid-left icon6">
+							<span> </span>
+						</div>
+						<div class="feature-grid-right">
+							<h2>Datos Cuenta</h2>
+							<p> <% out.println(cuenta.toUpperCase());%> </p>
+						</div>
+						<div class="clearfix"></div>		
+					</div>
+				</div>
+					<div class="clearfix"></div>		
+				</div>
+									<input type="button" onclick=" location.href='transacciones.html' " value="MENU INICIAL" name="boton" /> 
+									<input type="button" onclick=" location.href='CerrarSesion' " value="SALIR" name="boton" /> 
 </div>
+<!--start-pricing-->
 
 
-<div class="footer">
-	<div class="container">
-		<div class="row">
- 			<div class="col-md-12">	
-				<div class="copy-right">
-					<p>Copyright 2014 All Rights Reserved  Template <a href="http://w3layouts.com/">  w3layouts.com</a></p>	
-				</div>	
-			</div>
-		</div>
-    </div>
-</div>
-<!-- scroll_top_btn -->
 		<script type="text/javascript" src="js/move-top.js"></script>
 		<script type="text/javascript" src="js/easing.js"></script>
 		<script type="text/javascript">
@@ -156,9 +124,3 @@
 </body>
 </html>
 
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->

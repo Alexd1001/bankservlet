@@ -21,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -39,22 +40,18 @@ public class Login extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    public boolean comparar(EntityManager em,HttpServletRequest request ) throws IOException
+    public boolean comparar(EntityManager em,int documento ) throws IOException
     {   
         
         boolean flag=false;
         em.getTransaction().begin();     
         
         
-        Cliente up = em.find(Cliente.class, Integer.parseInt(request.getParameter("documentoid")));
-        if(up!=null)
-        {
-            if(up.getDocumentoid()==Integer.parseInt(request.getParameter("documentoid")))
-            {
-                flag=true;
-            }
+        Cliente up = em.find(Cliente.class, documento);
+        if(up!=null)          
+          flag=true;
         
-        }
+     
         
         return flag;
    }
@@ -64,50 +61,27 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankApplicationPU");
         EntityManager em = emf.createEntityManager();
+        int documento = Integer.parseInt(request.getParameter("documentoid"));
         
-        if(comparar(em, request)){
-        Cookie[] cookies = request.getCookies();
-        if(cookies !=null){
-        for(Cookie cookie : cookies){
-        if(cookie.getName().equals("name")) 
-            cookie.setValue(request.getParameter("documentoid"));
-            response.addCookie(cookie);
-
+        
+        
+        if(comparar(em, documento))
+        {
+           HttpSession session=request.getSession();
+           session.setAttribute("documento", documento);
+           response.setContentType("text/html");
+           String site = new String("transacciones.html");
+           response.setStatus(response.SC_MOVED_TEMPORARILY);
+           response.setHeader("Location", site); 
         }
-    }
-            else{
-        Cookie nombre = new  Cookie("name", request.getParameter("documentoid"));
-        nombre.setMaxAge(60*60*24*7);
-        response.addCookie(nombre);
-            }
-    
-      response.setContentType("text/html");
-      String site = new String("transacciones.html");
-
-      response.setStatus(response.SC_MOVED_TEMPORARILY);
-      response.setHeader("Location", site); 
-       }
-        
         else{
-        
-        try (PrintWriter out = response.getWriter()) {
-            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Login</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-        
+           response.setContentType("text/html");
+           String site = new String("MainController");
+           response.setStatus(response.SC_MOVED_TEMPORARILY);
+           response.setHeader("Location", site); 
         
         }
-        
-        
-        /**/
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

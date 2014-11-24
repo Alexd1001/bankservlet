@@ -1,41 +1,36 @@
-package Controlador;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+package Controlador;
+
 import Entidades.Cliente;
 import Entidades.Cuenta;
 import Entidades.Transacciones;
-import Modelo.Clientes;
-import Modelo.CuentaAhorros;
-import Modelo.CuentaCte;
-import Modelo.Cuentas;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
  *
- * @author adavila
+ * @author Mao
  */
-@WebServlet(urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
+public class EliminarCta extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,25 +42,57 @@ public class MainController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
+    
+    
+          
+     public void eliminaRegristros(EntityManager em,int documentoid) {
+           
+       
+       
+       Query query =  em.createNativeQuery("select cuentaid,id from cliente inner join cuenta on cuenta.documento_id = cliente.documentoid  inner join transacciones on transacciones.CUENTA_ID=cuenta.CUENTAID where documentoid=?");
+       query.setParameter(1, documentoid);
+       
+       List<Object[]> lista1 = query.getResultList();
+        
+         em.getTransaction().begin();
+         Transacciones trans = em.find(Transacciones.class, lista1.get(0)[1]);
+         if (trans != null) 
+            em.remove(trans);
+            
+         
+         Cuenta cta = em.find(Cuenta.class, lista1.get(0)[0]);
+         if (cta != null) 
+            em.remove(cta);
+         
+         Cliente cte = em.find(Cliente.class, documentoid);
+         if (cte != null) 
+            em.remove(cte);
+         
+          em.getTransaction().commit();    
+           
+    }
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
-       
-      HttpSession session=request.getSession(false);  
-        if(session!=null){  
-      response.setContentType("text/html");
-      String site = new String("transacciones.html");
-      response.setStatus(response.SC_MOVED_TEMPORARILY);
-      response.setHeader("Location", site); 
-        }    
-        else{
-      response.setContentType("text/html");
-      String site = new String("index.html");
-      response.setStatus(response.SC_MOVED_TEMPORARILY);
-      response.setHeader("Location", site); 
-        }
-    }
+        response.setContentType("text/html;charset=UTF-8");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankApplicationPU");
+        EntityManager em = emf.createEntityManager();
         
+        HttpSession session=request.getSession(false);  
+        int documento = (Integer)session.getAttribute("documento");  
+        
+        eliminaRegristros(em,documento);
+                
+        session.invalidate();  
+        response.setContentType("text/html");
+        String site = new String("MainController");
+        response.setStatus(response.SC_MOVED_TEMPORARILY);
+        response.setHeader("Location", site); 
+        
+        
+       
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

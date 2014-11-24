@@ -13,7 +13,6 @@ import Modelo.Clientes;
 import Modelo.CuentaAhorros;
 import Modelo.CuentaCte;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,6 +23,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,6 +37,7 @@ public class Registro extends HttpServlet {
      * methods.
      *
      * @param request servlet request
+     * @param object
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
@@ -65,8 +66,7 @@ public class Registro extends HttpServlet {
                      break;
                  case "saldo":
                      object.setCuenta(new CuentaAhorros());
-                     //object.getCuenta().setSaldo(Integer.parseInt(request.getParameter(paramName)));
-                     object.getCuenta().setSaldo(87123);
+                     object.getCuenta().setSaldo(Integer.parseInt(request.getParameter(paramName)));
                      break;
                  case "telefono":
                      object.setTelefono(Integer.parseInt(request.getParameter(paramName)));
@@ -87,7 +87,7 @@ public class Registro extends HttpServlet {
         boolean flag=false;
         if(up==null)
         {
-        //Clientes p = new Clientes();
+        
         Transacciones q = new Transacciones();
         Cuenta h = new Cuenta();
         
@@ -106,6 +106,7 @@ public class Registro extends HttpServlet {
         p.setCuenta(new CuentaCte());
         q.setSaldo(Integer.parseInt(request.getParameter("saldo")));
         
+        
         em.getTransaction().begin(); 
         em.persist(t);
         em.persist(h);
@@ -117,62 +118,31 @@ public class Registro extends HttpServlet {
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankApplicationPU");
         EntityManager em = emf.createEntityManager();
         Clientes p = new Clientes();
         save(request,p);
+        
         if(create(em,request,p))
         {
-        Cookie nombre = new  Cookie("name", request.getParameter("documentoid"));
-        nombre.setMaxAge(60*60*24*7);
-        response.addCookie(nombre);
+           HttpSession session=request.getSession();
+           session.setAttribute("documento", Integer.parseInt(request.getParameter("documentoid")));
+           response.setContentType("text/html");
+           String site = new String("transacciones.html");
+           response.setStatus(response.SC_MOVED_TEMPORARILY);
+           response.setHeader("Location", site); 
         }
-        
-        String userName= null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies !=null){
-        for(Cookie cookie : cookies){
-        if(cookie.getName().equals("name")) {
-            userName = cookie.getValue();
-        
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Registro</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Registro at " + userName + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-        }
-        }
-    }
-        
-    else{
-        
-        
-        
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Registro</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Registro at " + "perico" + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        else{
+           response.setContentType("text/html");
+           String site = new String("index.html");
+           response.setStatus(response.SC_MOVED_TEMPORARILY);
+           response.setHeader("Location", site); 
         }
     }
 
-    }// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

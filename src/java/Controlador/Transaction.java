@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Controlador;
 
 import Entidades.Cliente;
@@ -27,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -47,78 +42,36 @@ public class Transaction extends HttpServlet {
      */
     
     
-    public ArrayList<String> comparar(EntityManager em,HttpServletRequest request ) throws IOException
+    
+    
+    
+   public ArrayList<String> consulta(EntityManager em, int id,String columna ) throws IOException
     {   
         
         ArrayList<String> lista = new ArrayList<String>();
        
              
+        Query query =  em.createNativeQuery("select cuentaid,saldo,documentoid,tipocuenta,nombre,apellido from cliente inner join cuenta on cuenta.documento_id = cliente.documentoid  inner join transacciones on transacciones.CUENTA_ID=cuenta.CUENTAID where "+columna+"=?");
         
-        //Cuenta up = em.find(Cuenta.class, Integer.parseInt(request.getParameter("nocuenta")));
-        
-        Query query = em.createQuery("SELECT x FROM Transacciones x where cuentaid=:cuenta");
-        query.setParameter("cuenta", request.getParameter("nocuenta"));
-        
-        List<Transacciones> lista1 = query.getResultList();
-        
-        lista.add(0,"false");
-        for (Transacciones p : lista1) {
-        
-            
-            
-        if(p.getCuentaId().getCuentaid()==Integer.parseInt(request.getParameter("nocuenta")))
-        {
-            lista.add(0,"true");
-            lista.add(1,Integer.toString(p.getSaldo()));
-            break;
-        }
-        
-            
-            
-        
-
-        }
-        
-        
-        
-            
-        
-        
-        
-        return lista;
-   }
-    
-    
-    
-   public ArrayList<String> comparar1(EntityManager em,HttpServletRequest request ) throws IOException
-    {   
-        
-        ArrayList<String> lista = new ArrayList<String>();
-        boolean flag=false;
-             
-        
-               
-        Query query =  em.createNativeQuery("select cuentaid, documentoid,nombre,apellido,saldo from cliente inner join cuenta on cuenta.documento_id = cliente.documentoid  inner join transacciones on transacciones.CUENTA_ID=cuenta.CUENTAID where documentoid=?");
-        
-        query.setParameter(1, 92);
+        query.setParameter(1, id);
         List<Object[]> lista1 = query.getResultList();
         
         
         if(!lista1.isEmpty())
         {
-        
-        lista.add("false");
+        lista.add("true");
         lista.add(Integer.toString( (int) lista1.get(0)[0]));
-        lista.add( (String) lista1.get(0)[2]);
-        lista.add(Integer.toString( (int) lista1.get(0)[4]));
+        lista.add(Integer.toString( (int) lista1.get(0)[1]));
+        lista.add(Integer.toString( (int) lista1.get(0)[3]));
+        lista.add( (String) lista1.get(0)[4]);
+        lista.add( (String) lista1.get(0)[5]);
         }
         else
         {
             lista.add(0,"false");
-            lista.add(1,"mal");
+            lista.add(1,"La Cuenta Destino No Existe, La transaccion no se ejecuto");
         }
         
-       
         return lista;
    }
     
@@ -128,22 +81,28 @@ public class Transaction extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankApplicationPU");
         EntityManager em = emf.createEntityManager();
-        int numerocuenta;
         
-        Cookie[] cookies = request.getCookies();
-        if(cookies !=null){
-        for(Cookie cookie : cookies){
-        if(cookie.getName().equals("name")) 
-             numerocuenta= Integer.parseInt(cookie.getValue());
-            }
+       int documento = 0;
         
-        }
+        int cuentaDno= Integer.parseInt(request.getParameter("nocuenta"));
         
-        ArrayList <String> lista= comparar1(em,request);
+        HttpSession session=request.getSession(false);  
+        documento = (Integer)session.getAttribute("documento");  
         
-        if(Boolean.parseBoolean(lista.get(0)))
-        {
-         
+        
+        ArrayList <String> listaorigen = consulta(em,documento,"documentoid");
+        ArrayList <String> listadestino = consulta(em,cuentaDno,"cuentaid");
+        
+        
+        
+        
+        
+        if(Boolean.parseBoolean(listaorigen.get(0)))
+        { 
+            
+          
+          
+            
             try (PrintWriter out = response.getWriter()) {
            
             out.println("<!DOCTYPE html>");
@@ -152,25 +111,20 @@ public class Transaction extends HttpServlet {
             out.println("<title>Servlet tTransaction</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet tTransaction at " + lista.get(0)+ lista.get(1) + "</h1>");
+            for(String u: listaorigen){
+            out.println("<h1>Servlet Transaction at " + u + "</h1>");}
+            for(String u: listadestino){
+            out.println("<h1>Servlet Transaction at " + u + "</h1>");}
+            
             out.println("</body>");
             out.println("</html>");
             }
         }
         
-        try (PrintWriter out = response.getWriter()) {
-           
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet tTransaction</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            for(String u: lista){
-            out.println("<h1>Servlet tTransaction at " + u + "</h1>");}
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+        
+        
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
